@@ -1,14 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/bash"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ]
+  "buildCommand": "bash build_files.sh",
+  "outputDirectory": "staticfiles",
+  "installCommand": "pip install -r requirements.txt"
 }
