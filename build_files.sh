@@ -7,7 +7,7 @@ set -e
 echo "BUILD START"
 
 # Bước 1: Cài đặt các thư viện từ requirements.txt
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Bước 2: Chạy migrate để tạo bảng trong database
 python manage.py migrate
