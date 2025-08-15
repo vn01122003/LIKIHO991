@@ -24,12 +24,18 @@ STATIC_DIR=os.path.join(BASE_DIR,'static')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='#vw(03o=(9kbvg!&2d5i!2$_58x@_-3l4wujpow6(ym37jxnza')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [config('VERCEL_URL', default='127.0.0.1')]
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '.vercel.app',
+    '.now.sh',
+    config('VERCEL_URL', default='')
+]
 
 
 # Application definition
@@ -82,8 +88,8 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        # Đọc chuỗi kết nối từ biến môi trường DATABASE_URL
-        default=config('DATABASE_URL'),
+        # Đọc chuỗi kết nối từ biến môi trường POSTGRES_PRISMA_URL
+        default=config('POSTGRES_PRISMA_URL', default='sqlite:///db.sqlite3'),
         conn_max_age=600,
         ssl_require=True # Bắt buộc kết nối an toàn SSL
     )
@@ -124,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR,]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Changed for Vercel
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
@@ -133,7 +139,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 LOGIN_REDIRECT_URL='/afterlogin'
+
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
 
 #for contact us give your gmail id and password
 # EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
