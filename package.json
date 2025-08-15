@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-django",
+  "version": "1.0.0",
+  "description": "Django E-commerce Site",
+  "scripts": {
+    "build": "bash build_files.sh",
+    "vercel-build": "bash build_files.sh"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
