@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/bash"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
+}
