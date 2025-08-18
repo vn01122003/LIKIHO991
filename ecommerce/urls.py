@@ -1,17 +1,44 @@
-"""
-
-Developed By : sumit kumar
-facebook : fb.com/sumit.luv
-Youtube :youtube.com/lazycoders
-
-
-"""
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from ecom import views
 from django.contrib.auth.views import LoginView,LogoutView
+
+print("Available views:", [attr for attr in dir(views) if not attr.startswith('_')])
+print("migrate_view exists:", hasattr(views, 'migrate_view'))
+print("check_tables_view exists:", hasattr(views, 'check_tables_view'))
+
+def migrate_view(request):
+    try:
+        from django.core.management import execute_from_command_line
+        import sys
+        
+        # Chạy migrations
+        execute_from_command_line(['manage.py', 'migrate'])
+        return JsonResponse({'status': 'success', 'message': 'Migrations completed!'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+def check_tables_view(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_name 
+                FROM information_schema.tables 
+                WHERE table_schema = 'public'
+                ORDER BY table_name;
+            """)
+            tables = [row[0] for row in cursor.fetchall()]
+        
+        return JsonResponse({
+            'status': 'success',
+            'tables': tables,
+            'count': len(tables)
+        })
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
