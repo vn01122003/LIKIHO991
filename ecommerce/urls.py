@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from ecom import views
 from django.contrib.auth.views import LoginView,LogoutView
+from django.http import HttpResponseRedirect,HttpResponse,JsonResponse
+from django.conf.urls.static import static
 
 print("Available views:", [attr for attr in dir(views) if not attr.startswith('_')])
 print("migrate_view exists:", hasattr(views, 'migrate_view'))
@@ -89,7 +91,13 @@ urlpatterns = [
     path('check-tables/', views.check_tables_view, name='check_tables'),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 # Serve static and media files during development
 if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.STATIC_ROOT)
+else:
+    # Production media serving
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

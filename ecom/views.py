@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,reverse
 from . import forms,models
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from django.db import connection
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group
@@ -594,12 +594,34 @@ def migrate_view(request):
     try:
         from django.core.management import execute_from_command_line
         import sys
+        import os
         
-        # Chạy migrations
-        execute_from_command_line(['manage.py', 'migrate'])
-        return JsonResponse({'status': 'success', 'message': 'Migrations completed!'})
+        # Debug info
+        debug_info = {
+            'cwd': os.getcwd(),
+            'python_path': sys.path[:3],
+            'django_settings': os.environ.get('DJANGO_SETTINGS_MODULE'),
+            'base_dir': getattr(settings, 'BASE_DIR', 'Not set')
+        }
+        
+        # Chạy migrations với verbosity cao
+        execute_from_command_line(['manage.py', 'migrate', '--verbosity=2'])
+        
+        return JsonResponse({
+            'status': 'success', 
+            'message': 'Migrations completed!',
+            'debug_info': debug_info
+        })
+        
     except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        import traceback
+        
+        return JsonResponse({
+            'status': 'error', 
+            'message': str(e),
+            'traceback': traceback.format_exc(),
+            'debug_info': debug_info if 'debug_info' in locals() else 'Not available'
+        }, status=500)
 
 def check_tables_view(request):
     try:
