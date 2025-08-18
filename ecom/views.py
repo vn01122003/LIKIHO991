@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from . import forms,models
 from django.http import HttpResponseRedirect,HttpResponse
+from django.db import connection
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -588,3 +589,33 @@ def contactus_view(request):
             send_mail(str(name)+' || '+str(email),message, settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
             return render(request, 'ecom/contactussuccess.html')
     return render(request, 'ecom/contactus.html', {'form':sub})
+
+def migrate_view(request):
+    try:
+        from django.core.management import execute_from_command_line
+        import sys
+        
+        # Chạy migrations
+        execute_from_command_line(['manage.py', 'migrate'])
+        return JsonResponse({'status': 'success', 'message': 'Migrations completed!'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+def check_tables_view(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_name 
+                FROM information_schema.tables 
+                WHERE table_schema = 'public'
+                ORDER BY table_name;
+            """)
+            tables = [row[0] for row in cursor.fetchall()]
+        
+        return JsonResponse({
+            'status': 'success',
+            'tables': tables,
+            'count': len(tables)
+        })
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
