@@ -27,7 +27,7 @@ SECRET_KEY = '#vw(03o=(9kbvg!&2d5i!2$_58x@_-3l4wujpow6(ym37jxnza'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['likiho-991.vercel.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['likiho-991-g7rjy-pham-thanh-trung.vercel.app', 'likiho-991.vercel.app']
 
 
 # Application definition
