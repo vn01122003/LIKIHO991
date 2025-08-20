@@ -102,7 +102,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Security settings for production
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+# Security settings for production - TẠM THỜI TẮT SSL
+SECURE_SSL_REDIRECT = False  # Thay đổi từ True thành False
+SESSION_COOKIE_SECURE = False  # Thay đổi từ True thành False
+CSRF_COOKIE_SECURE = False  # Thay đổi từ True thành Fal
+
+STATIC_ROOT = '/home/username/your-project/staticfiles'
+MEDIA_ROOT = '/home/username/your-project/media'
