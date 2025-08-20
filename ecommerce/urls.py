@@ -53,7 +53,7 @@ urlpatterns = [
     path('send-feedback', views.send_feedback_view,name='send-feedback'),
     path('view-feedback', views.view_feedback_view,name='view-feedback'),
 
-    path('adminclick', views.adminclick_view, name='adminclick'),
+    path('admin/click', lambda request: redirect('admin/login'), name='adminclick'),
     path('admin/login', LoginView.as_view(template_name='ecom/adminlogin.html'),name='admin/login'),
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),
 

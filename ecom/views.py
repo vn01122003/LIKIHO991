@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.conf import settings
+from django.shortcuts import redirect
 
 def home_view(request):
     products=models.Product.objects.all()
@@ -29,7 +30,7 @@ def home_view(request):
 def adminclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return HttpResponseRedirect('adminlogin')
+    return HttpResponseRedirect('admin/login')
 
 
 def customer_signup_view(request):
