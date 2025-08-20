@@ -6,6 +6,7 @@ from ecom import views
 from django.contrib.auth.views import LoginView,LogoutView
 from django.http import HttpResponseRedirect,HttpResponse,JsonResponse
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 print("Available views:", [attr for attr in dir(views) if not attr.startswith('_')])
 print("migrate_view exists:", hasattr(views, 'migrate_view'))
