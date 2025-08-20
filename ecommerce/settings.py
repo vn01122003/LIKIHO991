@@ -106,6 +106,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SECURE_SSL_REDIRECT = False  # Thay đổi từ True thành False
 SESSION_COOKIE_SECURE = False  # Thay đổi từ True thành False
 CSRF_COOKIE_SECURE = False  # Thay đổi từ True thành Fal
-
-STATIC_ROOT = '/home/username/your-project/staticfiles'
-MEDIA_ROOT = '/home/username/your-project/media'
