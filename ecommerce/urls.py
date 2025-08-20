@@ -54,7 +54,7 @@ urlpatterns = [
     path('view-feedback', views.view_feedback_view,name='view-feedback'),
 
     path('adminclick', views.adminclick_view, name='adminclick'),
-    path('admin/login', LoginView.as_view(template_name='ecom/adminlogin.html'),name='adminlogin'),
+    path('admin/login', LoginView.as_view(template_name='ecom/adminlogin.html'),name='admin/login'),
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),
 
     path('view-customer', views.view_customer_view,name='view-customer'),
