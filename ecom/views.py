@@ -140,7 +140,7 @@ def admin_products_view(request):
 def admin_add_product_view(request):
     productForm=forms.ProductForm()
     if request.method=='POST':
-        productForm=forms.ProductForm(request.POST, request.FILES)
+        productForm=forms.ProductForm(request.POST)
         if productForm.is_valid():
             productForm.save()
         return HttpResponseRedirect('admin-products')
@@ -159,7 +159,7 @@ def update_product_view(request,pk):
     product=models.Product.objects.get(id=pk)
     productForm=forms.ProductForm(instance=product)
     if request.method=='POST':
-        productForm=forms.ProductForm(request.POST,request.FILES,instance=product)
+        productForm=forms.ProductForm(request.POST,instance=product)
         if productForm.is_valid():
             productForm.save()
             return redirect('admin-products')
@@ -642,3 +642,10 @@ def check_tables_view(request):
         })
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')

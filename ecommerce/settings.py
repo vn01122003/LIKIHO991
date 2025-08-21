@@ -106,3 +106,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SECURE_SSL_REDIRECT = False  # Thay đổi từ True thành False
 SESSION_COOKIE_SECURE = False  # Thay đổi từ True thành False
 CSRF_COOKIE_SECURE = False  # Thay đổi từ True thành Fal
+
+# Logout configuration
+LOGOUT_REDIRECT_URL = '/'  # Redirect về trang chủ sau khi logout
+LOGIN_REDIRECT_URL = '/afterlogin'  # Redirect sau khi login
